@@ -39,7 +39,7 @@ function getNews(metaOnly) {
 
 function saveNews(filename, news) {
   fs.writeFileSync(
-    path.join(NEWS_PATH, `/../data/${filename}.json`),
+    path.join(NEWS_PATH, `/../bin/data/${filename}.json`),
     JSON.stringify(news)
   );
 }
