@@ -1,9 +1,8 @@
-// @ts-nocheck
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const NEWS_PATH = path.join(process.cwd(), '/../');
+const NEWS_PATH = path.join(process.cwd(), '/../content');
 
 function getNewsPaths() {
   return (
@@ -40,7 +39,7 @@ function getNews(metaOnly) {
 
 function saveNews(filename, news) {
   fs.writeFileSync(
-    path.join(NEWS_PATH, `data/${filename}.json`),
+    path.join(NEWS_PATH, `/../data/${filename}.json`),
     JSON.stringify(news)
   );
 }
