@@ -37,3 +37,10 @@ jobs:
           publish_dir: ./bin/data
           publish_branch: build
           force_orphan: true
+          
+      - name: Run a one-line script
+        env:
+          accessKeyId: "${{ secrets.OSS_ACCESS_KEY_ID }}"
+          accessKeySecret: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
+        run: |
+          bash ./sync.sh "$accessKeyId" "$accessKeySecret"
