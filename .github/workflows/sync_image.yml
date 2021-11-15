@@ -16,4 +16,5 @@ jobs:
           accessKeyId: "${{ secrets.OSS_ACCESS_KEY_ID }}"
           accessKeySecret: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
         run: |
+          echo "$accessKeyId" "$accessKeySecret"
           bash ./sync.sh "$accessKeyId" "$accessKeySecret"
