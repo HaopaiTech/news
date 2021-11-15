@@ -1,0 +1,19 @@
+name: sync images to oss
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run a one-line script
+        env:
+          accessKeyId: "${{ secrets.OSS_ACCESS_KEY_ID }}"
+          accessKeySecret: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
+        run: |
+          bash ./sync.sh "$accessKeyId" "$accessKeySecret"
