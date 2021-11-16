@@ -15,7 +15,8 @@
   # 2. 新闻日期，必填，务必使用 "" 包裹
   date: "2021-07-02"
   # 3. 文章图片封面 URL 地址，可选；如果为空，则使用 https://source.unsplash.com/800x450/?city
-  cover: /news/the-birth-of-smartpai.png
+  #    将图片上传到 images 文件夹后，将图片文件名（英文）填写到此处即可
+  cover: /images/the-birth-of-smartpai.png
   # 4. 文章 URL，必填
   permalink: the-birth-of-smartpai
   # 5. 关键词，必填，按以下格式
@@ -30,7 +31,19 @@
 
 ## 问题
 
-如果 GitHub Actions 运行失败，可能是因为新闻的 `permalink` 与其它新闻有冲突，请使用一个不同的 `permalink`！
+1. 如何在新闻内容内添加图片？
+
+  将图片上传到 images 文件夹后，在 Markdown 文件中使用如下格式：
+
+  ```md
+  ![alt text](/images/name.jpg "title")
+  ```
+
+  即可引入图片，` "title"` 可选。
+
+2. GitHub Actions 运行失败
+
+  可能是因为新闻的 `permalink` 与其它新闻有冲突，请使用一个不同的 `permalink`！
 
 ## 说明
 
