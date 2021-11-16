@@ -48,3 +48,5 @@
 ## 说明
 
 这个仓库存放网站首页的所有新闻，每次 main 分支有 commit 后，触发 GitHub Actions 运行 `bin/index.mjs`，将 Markdown 文章渲染成 JSON 文件，并上传到仓库的 build 分支，然后自动部署到 GitHub Pages，供网站请求使用，通过 ISR：https://vercel.com/docs/concepts/next.js/incremental-static-regeneration
+
+至于图片，全部都存放在阿里云 OSS 上，图片上传到本仓库的 images 文件夹后，GitHub Actions 自动运行 `ossutil64` 命令，实现图片的同步。此外在代码仓库，还需要自定义图片的 loader，参考：https://nextjs.org/docs/api-reference/next/image#loader
