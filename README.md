@@ -15,7 +15,7 @@
   # 2. 新闻日期，必填，务必使用 "" 包裹
   date: "2021-07-02"
   # 3. 文章图片封面 URL 地址，可选；如果为空，则使用 https://source.unsplash.com/800x450/?city
-  #    将图片上传到 images 文件夹后，将图片文件名（英文）填写到此处即可
+  #    将图片上传到 images 文件夹后，将图片文件名（英文）填写到此处即可（必须包含 /images/ 前缀）
   cover: /images/the-birth-of-smartpai.png
   # 4. 文章 URL，必填
   permalink: the-birth-of-smartpai
