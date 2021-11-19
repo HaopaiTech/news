@@ -15,23 +15,17 @@ function getNewsFilenames() {
   );
 }
 
-function getNews(metaOnly) {
+function getNews() {
   const newsFilenames = getNewsFilenames();
 
   const news = newsFilenames.map((filename) => {
     const fullPath = path.join(NEWS_PATH, filename);
     const { content, data } = matter(fs.readFileSync(fullPath));
 
-    if (metaOnly) {
-      return {
-        data,
-      };
-    } else {
-      return {
-        content,
-        data,
-      };
-    }
+    return {
+      content,
+      data,
+    };
   });
 
   // Sort by date descending, i.e.
@@ -43,41 +37,64 @@ function getNews(metaOnly) {
 }
 
 function saveNews(type, data) {
-  if (type === 'meta') {
-    // Write all news meta to one single file
-    fs.writeFileSync(
-      path.join(NEWS_PATH, '/../bin/data/meta.json'),
-      JSON.stringify(data)
-    );
-  } else {
-    // Clean up bin/data/news/
-    fs.rmdirSync(path.join(NEWS_PATH, '/../bin/data/news/'), {
-      recursive: true,
-    });
-    fs.mkdirSync(path.join(NEWS_PATH, '/../bin/data/news/'), {
-      recursive: true,
-    });
+  switch (type) {
+    // Write 6 news meta to meta-home.json
+    case 'meta-home':
+      fs.writeFileSync(
+        path.join(NEWS_PATH, `/../bin/data/${type}.json`),
+        JSON.stringify(data)
+      );
+      break;
+
+    // Write all news meta to meta-all.json
+    case 'meta-all':
+      fs.writeFileSync(
+        path.join(NEWS_PATH, `/../bin/data/${type}.json`),
+        JSON.stringify(data)
+      );
+      break;
 
     // Write every news to the corresponding file named {permalink}.json
     // under bin/data/news/
-    for (const item of data) {
-      const fullPath = path.join(
-        NEWS_PATH,
-        `/../bin/data/news/${item.data.permalink}.json`
-      );
+    case 'news':
+      // Clean up bin/data/news/
+      fs.rmdirSync(path.join(NEWS_PATH, '/../bin/data/news/'), {
+        recursive: true,
+      });
+      fs.mkdirSync(path.join(NEWS_PATH, '/../bin/data/news/'), {
+        recursive: true,
+      });
 
-      if (!fs.existsSync(fullPath)) {
-        // Create the file if it doesn't exist
-        fs.writeFileSync(fullPath, JSON.stringify(item));
-      } else {
-        // Throw an error if the file already exists
-        throw new Error(
-          `Set another different permalink for ${item.data.title}! File ${fullPath} already exists!`
+      for (const item of data) {
+        const fullPath = path.join(
+          NEWS_PATH,
+          `/../bin/data/news/${item.data.permalink}.json`
         );
+
+        if (!fs.existsSync(fullPath)) {
+          // Create the file if it doesn't exist
+          fs.writeFileSync(fullPath, JSON.stringify(item));
+        } else {
+          // Throw an error if the file already exists
+          throw new Error(
+            `Set another different permalink for ${item.data.title}! File ${fullPath} already exists!`
+          );
+        }
       }
-    }
+      break;
+    default:
+      throw new Error(`Unknown type ${type}!`);
   }
 }
 
-saveNews('meta', getNews(true));
-saveNews('news', getNews());
+(function main() {
+  const news = getNews();
+  const dataMeta = news.map((item) => ({
+    data: item.data,
+  }));
+  const dataMetaHome = dataMeta.slice(0, 6);
+
+  saveNews('meta-home', dataMetaHome);
+  saveNews('meta-all', dataMeta);
+  saveNews('news', news);
+})();
